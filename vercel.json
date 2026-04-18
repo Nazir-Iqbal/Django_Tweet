@@ -1,18 +1,16 @@
 {
-    "builds": [
-        {
-            "src": "tweet_project/wsgi.py",
-            "use": "@vercel/python"
+    "version": 2,
+    "buildCommand": "chmod +x build_files.sh && ./build_files.sh",
+    "outputDirectory": "staticfiles",
+    "functions": {
+        "tweet_project/wsgi.py": {
+            "runtime": "vercel-python@3"
         }
-    ],
-    "routes": [
+    },
+    "rewrites": [
         {
-            "src": "/static/(.*)",
-            "dest": "/static/$1"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "tweet_project/wsgi.py"
+            "source": "/(.*)",
+            "destination": "tweet_project/wsgi.py"
         }
     ]
 }
