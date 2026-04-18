@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}TweetChat{% endblock %}
+
+{% block body %}
+<div class="app-layout">
+    {% include 'chat/partials/sidebar.html' %}
+    <main class="main-content">
+        <div class="empty-state">
+            <div class="empty-icon">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                    <rect width="64" height="64" rx="20" fill="var(--accent)" opacity="0.1"/>
+                    <path d="M20 28C20 24.6863 22.6863 22 26 22H38C41.3137 22 44 24.6863 44 28V34C44 37.3137 41.3137 40 38 40H32L26 44V40C22.6863 40 20 37.3137 20 34V28Z" stroke="var(--accent)" stroke-width="2"/>
+                    <circle cx="29" cy="31" r="1.5" fill="var(--accent)"/>
+                    <circle cx="33" cy="31" r="1.5" fill="var(--accent)"/>
+                    <circle cx="37" cy="31" r="1.5" fill="var(--accent)"/>
+                </svg>
+            </div>
+            <h2>Welcome to TweetChat</h2>
+            <p>Select a conversation or start a new one</p>
+        </div>
+    </main>
+</div>
+{% endblock %}

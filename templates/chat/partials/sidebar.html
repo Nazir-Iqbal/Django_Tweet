@@ -1,0 +1,50 @@
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <h2 class="sidebar-logo">TweetChat</h2>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">
+            <svg class="icon-sun" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="10" cy="10" r="4"/><path d="M10 1v2M10 17v2M1 10h2M17 10h2M3.93 3.93l1.41 1.41M14.66 14.66l1.41 1.41M3.93 16.07l1.41-1.41M14.66 5.34l1.41-1.41"/>
+            </svg>
+            <svg class="icon-moon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M17.39 10.74A8 8 0 019.26 2.61 8 8 0 1017.39 10.74z"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="sidebar-actions">
+        <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3 3"/></svg>
+            <input type="text" id="userSearch" placeholder="Search users to chat..." class="search-input" autocomplete="off">
+        </div>
+        <div id="searchResults" class="search-results" style="display:none"></div>
+    </div>
+
+    <div class="conversation-list">
+        <h4 class="list-label">Conversations</h4>
+        {% for conv in conversations %}
+        {% with other=conv.get_other_participant %}
+        {% if other %}
+        <a href="{% url 'conversation' conv_id=conv.id %}" class="conversation-item {% if conversation.id == conv.id %}active{% endif %}">
+            <div class="avatar avatar-sm" style="background:{{ other.avatar_color }}">{{ other.get_initials }}</div>
+            <div class="conv-info">
+                <span class="conv-name">{{ other.get_full_name|default:other.username }}</span>
+                {% with last=conv.get_last_message %}
+                <span class="conv-preview">{{ last.content|truncatechars:40|default:"No messages yet" }}</span>
+                {% endwith %}
+            </div>
+        </a>
+        {% endif %}
+        {% endwith %}
+        {% empty %}
+        <p class="empty-list">No conversations yet. Search for a user above to start chatting!</p>
+        {% endfor %}
+    </div>
+
+    <div class="sidebar-footer">
+        <a href="{% url 'profile' %}" class="user-info">
+            <div class="avatar avatar-sm" style="background:{{ request.user.avatar_color }}">{{ request.user.get_initials }}</div>
+            <span>{{ request.user.get_full_name|default:request.user.username }}</span>
+        </a>
+        <a href="{% url 'logout' %}" class="btn btn-ghost btn-sm">Logout</a>
+    </div>
+</aside>

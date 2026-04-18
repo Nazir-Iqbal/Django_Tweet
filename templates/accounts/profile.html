@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - TweetChat{% endblock %}
+
+{% block body %}
+<div class="app-layout">
+    {% include 'chat/partials/sidebar.html' %}
+    <main class="main-content">
+        <div class="profile-page">
+            <h2>Edit Profile</h2>
+            <form method="post" class="auth-form profile-form">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {% if field.name == 'bio' %}
+                    <textarea name="{{ field.html_name }}" id="{{ field.id_for_label }}" class="form-input" rows="3">{{ field.value|default:'' }}</textarea>
+                    {% elif field.name == 'avatar_color' %}
+                    <input type="color" name="{{ field.html_name }}" id="{{ field.id_for_label }}" value="{{ field.value|default:'#6366f1' }}" class="form-input color-input">
+                    {% else %}
+                    <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.html_name }}" id="{{ field.id_for_label }}" value="{{ field.value|default:'' }}" class="form-input">
+                    {% endif %}
+                    {% if field.errors %}<span class="field-error">{{ field.errors.0 }}</span>{% endif %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign Up - TweetChat{% endblock %}
+
+{% block body %}
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="auth-logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <rect width="40" height="40" rx="12" fill="#6366f1"/>
+                    <path d="M12 20L18 26L28 14" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h1>Create Account</h1>
+            <p>Join TweetChat and start chatting</p>
+        </div>
+        <form method="post" class="auth-form" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                <input type="{{ field.field.widget.input_type|default:'text' }}"
+                       name="{{ field.html_name }}"
+                       id="{{ field.id_for_label }}"
+                       value="{{ field.value|default:'' }}"
+                       placeholder="{{ field.label }}"
+                       class="form-input {% if field.errors %}input-error{% endif %}"
+                       {% if field.field.required %}required{% endif %}>
+                {% if field.errors %}
+                <span class="field-error">{{ field.errors.0 }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary btn-full">Sign Up</button>
+        </form>
+        <p class="auth-footer">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+    </div>
+</div>
+{% endblock %}
